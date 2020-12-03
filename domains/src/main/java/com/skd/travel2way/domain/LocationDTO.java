@@ -6,7 +6,7 @@ package com.skd.travel2way.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class LocationDTO implements Serializable {
+public class LocationDTO {
 
     private List<Location> locations;
 

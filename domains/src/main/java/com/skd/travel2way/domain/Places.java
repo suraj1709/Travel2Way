@@ -93,15 +93,7 @@ public class Places implements Serializable {
         this.locationId = locationId;
     }
 
-    public Places(int placeId, String placeName, String country, String state, String placeDesc, String placeReview, String placeRating) {
-        this.placeId = placeId;
-        this.placeName = placeName;
-        this.country = country;
-        this.state = state;
-        this.placeDesc = placeDesc;
-        this.placeReview = placeReview;
-        this.placeRating = placeRating;
-    }
+
 }
 
 

@@ -3,7 +3,7 @@ package com.skd.travel2way.domain;
 
 import java.io.Serializable;
 
-public class ResponseDTO  implements Serializable {
+public class ResponseDTO  {
 
     private LocationDTO response;
 

@@ -1,11 +1,13 @@
 package com.skd.travel2way.service.impl;
 
+import com.skd.travel2way.config.GeneratePdfReport;
 import com.skd.travel2way.domain.*;
 import com.skd.travel2way.repo.TravelLocationRepo;
 import com.skd.travel2way.service.ITravelLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +19,8 @@ public class TravelLocationServiceImpl implements ITravelLocationService {
     @Autowired
     private TravelLocationRepo travelLocationRepo;
 
-
+    @Autowired
+    private GeneratePdfReport generatePdfReport;
 
     @Override
     public ResponseDTO searchLocation(String name) {
@@ -68,6 +71,12 @@ public class TravelLocationServiceImpl implements ITravelLocationService {
     public List<Place> getAllPlaces(int id) {
         return travelLocationRepo.retrivebyLocationId(id);
 
+    }
+
+    @Override
+    public ByteArrayInputStream getPdf(String Location) {
+        ResponseDTO response=searchLocation(Location);
+        return generatePdfReport.LocationReport(response.getResponse().getLocations());
     }
 
 
