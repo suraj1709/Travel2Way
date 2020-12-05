@@ -5,13 +5,16 @@ import com.skd.travel2way.domain.*;
 import com.skd.travel2way.repo.TravelLocationRepo;
 import com.skd.travel2way.service.ITravelLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Set;
 
-
+@Transactional
 @Service
 public class TravelLocationServiceImpl implements ITravelLocationService {
 
@@ -23,6 +26,8 @@ public class TravelLocationServiceImpl implements ITravelLocationService {
     private GeneratePdfReport generatePdfReport;
 
     @Override
+
+    @Cacheable(value = "locationCache", key = "#name")
     public ResponseDTO searchLocation(String name) {
         ResponseDTO response= new ResponseDTO();
         LocationDTO locationDTO= new LocationDTO();
@@ -31,6 +36,40 @@ public class TravelLocationServiceImpl implements ITravelLocationService {
         return response;
 
     }
+
+    @Override
+    @Cacheable(value = "locationCache", key = "#name")
+    public ResponseDTO searchLocationAuto(String name) {
+        ResponseDTO response= new ResponseDTO();
+        LocationDTO locationDTO= new LocationDTO();
+        locationDTO.setLocations(travelLocationRepo.findByLocationNameContainingIgnoreCase(name));
+        response.setResponse(locationDTO);
+        return response;
+    }
+
+    @Override
+    public ResponseDTO allLocation() {
+        ResponseDTO response= new ResponseDTO();
+        LocationDTO locationDTO= new LocationDTO();
+        locationDTO.setLocations(travelLocationRepo.findAll());
+        response.setResponse(locationDTO);
+        return response;
+    }
+
+    @Override
+    public ResponseDTO findByCountry(String country) {
+        ResponseDTO response= new ResponseDTO();
+        LocationDTO locationDTO= new LocationDTO();
+        locationDTO.setLocations(travelLocationRepo.findByPlaces_Country(country));
+        response.setResponse(locationDTO);
+        return response;
+    }
+
+    @Override
+    public void updateLocationDesc(String locationDesc, int locationId) {
+        travelLocationRepo.updateSome(locationDesc,locationId);
+    }
+
 
     @Override
     public String saveLocation(LocationDTO locationDTO) {

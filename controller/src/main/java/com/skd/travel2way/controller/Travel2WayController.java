@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,33 +29,25 @@ public class Travel2WayController
     private ITravelLocationService iTravelLocationService;
 
 
-    @Operation(description = "Get all Location")
-    @GetMapping("/searchLocation")
-    public ResponseDTO searchLocation(@RequestParam(value ="location" ) String location)
-    {
-        return iTravelLocationService.searchLocation(location);
-    }
 
     @Operation(description = "Save Location")
     @PostMapping("/saveLocation")
-    public String saveLocation(@RequestBody LocationDTO locationDTO)
+    public ResponseEntity saveLocation(@RequestBody LocationDTO locationDTO)
     {
-        return iTravelLocationService.saveLocation(locationDTO);
+        return new ResponseEntity(iTravelLocationService.saveLocation(locationDTO),HttpStatus.CREATED);
     }
+
+
 
     @Operation(description = "Delete Location")
-    @GetMapping("/delete")
-    public String saveLocation(@RequestParam(value = "id") int id)
+    @DeleteMapping("/delete")
+    public ResponseEntity saveLocation(@RequestParam(value = "id") int id)
     {
-        return iTravelLocationService.deleteLocation(id);
+
+        return new ResponseEntity(iTravelLocationService.deleteLocation(id), HttpStatus.OK);
     }
 
-    @Operation(description = "Get all Places")
-    @GetMapping("/searchPlaces")
-    public List<Place> searchPlcaes(@RequestParam(value ="locationId" ) int locationId)
-    {
-        return iTravelLocationService.getAllPlaces(locationId);
-    }
+
 
     @Operation(description = "Generate PDF File")
     @GetMapping(name = "/getpdffile",produces = MediaType.APPLICATION_PDF_VALUE)
@@ -70,5 +63,13 @@ public class Travel2WayController
 
     }
 
+
+    @Operation(description = "Get all Location")
+    @PutMapping("/updateLocationDesc")
+    public ResponseEntity updateLocationDesc(@RequestParam(value ="locationDesc" ) String locationDesc,@RequestParam(value = "locationId") int locationId)
+    {
+        iTravelLocationService.updateLocationDesc(locationDesc,locationId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

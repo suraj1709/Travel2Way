@@ -14,8 +14,8 @@ class OpenApiConfig {
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                        .title("sample application API")
-                        .version("1.001").description("Travel Api")
+                        .title("Travel2Way Application API")
+                        .version("1.001").description("Travel2Way Api")
                         .termsOfService("http://swagger.io/terms/"));
 
     }

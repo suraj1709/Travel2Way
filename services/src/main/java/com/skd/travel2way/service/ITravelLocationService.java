@@ -9,6 +9,14 @@ public interface ITravelLocationService {
 
      ResponseDTO searchLocation(String name);
 
+     ResponseDTO searchLocationAuto(String name);
+
+     ResponseDTO allLocation();
+
+     ResponseDTO findByCountry(String country);
+
+     void updateLocationDesc(String locationDesc,int locationId);
+
      String saveLocation(LocationDTO locationDTO);
 
      String deleteLocation(int id);
